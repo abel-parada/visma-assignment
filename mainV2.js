@@ -1,6 +1,6 @@
 const Vismaclass = require('./classLayerV2');
 
-// const myURL = new URL('visma-identity://login?source=severa');
+const myURL = new URL('visma-identity://login?source=severa');
 
 // const myURL = new URL('visma-identity://confirm?source=netvisor&paymentnumber=102226');
 
@@ -18,4 +18,4 @@ let URI = {
 
 const visma = new Vismaclass(URI);
 
-console.log(visma.identifyAction(URI.path))
+console.log(visma.identifyAction(URI.path));
