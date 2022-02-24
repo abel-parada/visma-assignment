@@ -1,6 +1,55 @@
 # Visma Solutions - programming task
 
-Problem
+Specifications of the assignment below in section _Assignment Specs_
+
+# Technologies used
+
+Built with:
+
+- JS
+- Nodejs
+
+## Setup and usage
+
+1. Install https://nodejs.org/en/
+
+2. Uncomment the URI that you want to test in main.js. By default the following one is uncommented.
+
+```js
+const myURL = new URL("visma-identity://login?source=severa");
+```
+
+3. Runs the app in the development mode.
+
+```shell
+node main.js
+```
+
+4. Swap between URIs, uncommenting/commenting them in order to test them. Note that only one URI can be tested at once.
+
+5. Tasks analysis and my own thoughts can be found in file [taskAnalysis.md](./taskAnalysis.md)
+
+## Screenshots
+
+![alt text](./main.png) "Main View"
+
+## Documentation used
+
+https://nodejs.org/dist/latest-v16.x/docs/api/url.html
+https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
+
+## Authors and acknowledgment
+
+Abel Parada
+
+- [GitHub @abel-parada](https://github.com/abel-parada)
+- [LinkedIn](https://www.linkedin.com/in/abelparadamillan/)
+
+---
+
+## Assignment Specs
+
+**Problem**
 Visma Solutions Oy is developing an application for identity management. With the application, users can login to integrated applications, confirm payments and sign documents. Identity management is a mobile application and other apps can call its services through deep linking. We have decided to outsource implementation of this application.
 
 We have found you as the subcontractor to design and implement a part of the applications logic.

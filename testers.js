@@ -1,30 +1,12 @@
-// const URI = {
-//     scheme:'visma-identity',
-//     path:'login',
-//     parameters:'source=severa'
-// }
-
-// const URI2 = {
-//     scheme:'visma-identity',
-//     path:'confirm',
-//     parameters:'source=netvisor&paymentnumber'
-// }
-
-// const URI3 = {
-//     scheme:'visma-identity',
-//     path:'sign',
-//     parameters:'source=vismasign&documentid'
-// }
-
 const myURL = new URL('visma-identity://login?source=severa');
 
 // const myURL = new URL('visma-identity://confirm?source=netvisor&paymentnumber=102226');
 
 // const myURL = new URL('visma-identity://sign?source=vismasign&documentid=47ed9186-2ba0-4e8b-b9e2-7123575fdd5b');
 
-let URI = {
+const URI = {
     scheme: myURL.protocol,
-    path:myURL.hostname,
+    path: myURL.hostname,
     parameters: {
         source: myURL.searchParams.get('source'),
         paymentNumber: myURL.searchParams.get('paymentnumber'),
@@ -32,70 +14,32 @@ let URI = {
     }
 }
 
-class VismaURI {
+
+class VismaURIv2 {
 
     constructor(data){
-       this.data = data
-    }
-
-    login (source) {
-        if(typeof source == "string"){
-
-            if (!this.data.scheme === URI.scheme){
-                throw new Error('Wrong Scheme')
-            }
-            if(this.data.path === source)
-            return `${this.data.scheme}//${this.data.path}?source=${this.data.parameters.source}`;
-
+        this.data = data
+     }
+ 
+     identifyAction (action){
+        if (!this.data.scheme === 'visma-identity'){
+            throw new Error('Wrong Scheme')
         }
-        else return `ERROR: parameters must be strings`;
-    };
-
-    confirm (source, paymentNumber) {
-        if(typeof source == "string" && typeof paymentNumber =='number'){
-
-            if (!this.data.scheme === 'visma-identity'){
-                throw new Error('Wrong Scheme')
+        if(this.data.path === action){
+            if(!this.data.parameters.paymentNumber && !this.data.parameters.documentId){
+                return `Action is: ${action}.\nWelcome to Visma\n`;
             }
-            if(!this.data.path === source) throw new Error (`Wrong source. Introduce proper path, which is ${this.data.path}.`);
-            if(!paymentNumber) throw new Error ('Missing parameter');
-            else{
-                return `${this.data.scheme}://${this.data.path}?${this.data.parameters}=${paymentNumber}`;
+            if(this.data.parameters.paymentNumber){
+                return `Action is: ${action}. \nPayment number is ${URI.parameters.paymentNumber}.\nThank you for using Visma ${URI.parameters.source}\n`;
+            }
+            if(this.data.parameters.documentId){
+                return `Action is: ${action}. \nDocument ID is ${URI.parameters.documentId}.\nThank you for using Visma ${URI.parameters.source}\n`;
             }
         }
-        else return `ERROR: first parameter must be a string. Second a number`;
-    };
+     }
+ 
+ }
 
-    sign (source, documentId) {
-        if(typeof source == "string" && typeof documentId =='string'){
+ const test = new VismaURIv2 (URI);
 
-            if (!this.data.scheme === 'visma-identity'){
-                throw new Error('Wrong Scheme')
-            }
-            if(!this.data.path === source) throw new Error (`Wrong source. Introduce proper path, which is ${this.data.path}.`);
-            if(!documentId) throw new Error ('Missing parameter');
-            else{
-                return `${this.data.scheme}://${this.data.path}?${this.data.parameters}=${documentId}`;
-            }
-        }
-        else return `ERROR: parameters must be strings`;
-    };
-
-}
-
-const testLogin = new VismaURI(URI);
-
-// const testConfirm = new VismaURI(URI2)
-
-// const testSign = new VismaURI(URI3)
-
-console.log(testLogin.login('login'));
-
-// console.log(testConfirm.confirm('confirm',98))
-
-// console.log(testSign.sign('sign',98));
-
-
-// const myURL = new URL ('visma-identity://login?source=severa');
-
-// console.log(myURL);
+ console.log(test.identifyAction(URI.path));
