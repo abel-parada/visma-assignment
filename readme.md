@@ -11,23 +11,29 @@ Built with:
 
 ## Setup and usage
 
-1. Install https://nodejs.org/en/
+1. Make sure you have installed nodejs and npm (https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-2. Uncomment the URI that you want to test in main.js. By default the following one is uncommented.
-
-```js
-const myURL = new URL("visma-identity://login?source=severa");
-```
-
-3. Runs the app in the development mode.
+2. Install uuid dependencies with:
 
 ```shell
-node main.js
+   npm install
 ```
 
-4. Swap between URIs, uncommenting/commenting them in order to test them. Note that only one URI can be tested at once.
+3. Uncomment the case you want to test in main.js. By default the following one is uncommented.
 
-5. Tasks analysis and my own thoughts can be found in file [taskAnalysis.md](./taskAnalysis.md)
+```js
+const visma = new VismaURI("visma-identity://login?source=severa");
+```
+
+4. Runs the app in the development mode.
+
+```shell
+node client.js
+```
+
+5. Swap between URI cases (allocated in the constant `visma`), uncommenting/commenting them in order to test them. Note that only one case can be tested at once.
+
+6. Tasks analysis and my own thoughts can be found in file [taskAnalysis.md](./taskAnalysis.md)
 
 ## Screenshots
 
@@ -35,8 +41,11 @@ node main.js
 
 ## Documentation used
 
-https://nodejs.org/dist/latest-v16.x/docs/api/url.html
-https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
+- PARSE URL: https://nodejs.org/dist/latest-v16.x/docs/api/url.html
+
+- URL searchParam: https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
+
+- UUID validation: https://www.npmjs.com/package/uuid
 
 ## Authors and acknowledgment
 

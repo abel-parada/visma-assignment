@@ -1,26 +1,49 @@
-module.exports = class VismaURI {
+const { validate: uuidValidate  } = require('uuid');
 
+module.exports = class VismaURI {
+    
     constructor(data){
-        this.data = data;
-     };
- 
-     identifyAction (action){
-        if (this.data.scheme !== 'visma-identity:'){
+        this.parsedURL = new URL(data);
+    };
+
+    identifyAction (){
+        if (this.parsedURL.protocol !== 'visma-identity:'){
             throw new Error('Wrong Scheme');
         }
         else {
-            if(this.data.path === action){
-                if(!this.data.parameters.paymentNumber && !this.data.parameters.documentId){
-                    return `Action is: ${action}.\nWelcome to Visma\n`;
+            switch (this.parsedURL.host){
+                case 'confirm':
+                    return this.confirm();
+                case 'login':
+                    return this.login();
+                case 'sign':
+                    return this.sign();
+                default:
+                    throw new Error('Wrong action');
                 };
-                if(this.data.parameters.paymentNumber){
-                    return `Action is: ${action}. \nPayment number is ${this.data.parameters.paymentNumber}.\nThank you for using Visma ${this.data.parameters.source}\n`;
-                };
-                if(this.data.parameters.documentId){
-                    return `Action is: ${action}. \nDocument ID is ${this.data.parameters.documentId}.\nThank you for using Visma ${this.data.parameters.source}\n`;
-                };
-            };
-
         };
-     };
+    };
+
+    confirm(){
+         if(this.parsedURL.searchParams.get('paymentnumber')){
+             return `Action is: ${this.parsedURL.host}. \nPayment number is ${this.parsedURL.searchParams.get('paymentnumber')}.\nThank you for using Visma ${this.parsedURL.searchParams.get('source')}\n`;
+         }
+         else {
+            throw new Error ('URI must have a paymentnumber parameter')
+         };
+    };
+
+    login(){
+            return `Action is: ${this.parsedURL.host}.\nWelcome to Visma\n`;
+    };
+
+    sign(){
+
+         if(uuidValidate(this.parsedURL.searchParams.get('documentid'))){
+             return `Action is: ${this.parsedURL.host}. \nDocument ID is ${this.parsedURL.searchParams.get('documentid')}.\nThank you for using Visma ${this.parsedURL.searchParams.get('source')}\n`;
+         }
+         else{
+             throw new Error ('URI must have a valid documentid UUID parameter')
+         }; 
+    };
  };
