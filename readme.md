@@ -37,7 +37,7 @@ node client.js
 
 ## Screenshots
 
-![alt text](./main.png) "Main View"
+![alt text](./solution.png) "Main View"
 
 ## Documentation used
 
